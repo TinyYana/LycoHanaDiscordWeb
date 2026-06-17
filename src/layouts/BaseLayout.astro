@@ -1,0 +1,103 @@
+---
+import ThemeToggle from '../components/interactive/ThemeToggle';
+import { siteConfig } from '../config/site';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const title = Astro.props.title ?? siteConfig.name;
+const description = Astro.props.description ?? siteConfig.description;
+const canonical = siteConfig.canonicalUrl;
+---
+
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <script is:inline>
+      (() => {
+        const storageKey = 'lycohana-theme';
+        const root = document.documentElement;
+        const stored = localStorage.getItem(storageKey);
+        const preferred = window.matchMedia('(prefers-color-scheme: dark)')
+          .matches
+          ? 'dark'
+          : 'light';
+        const theme =
+          stored === 'light' || stored === 'dark' ? stored : preferred;
+        root.classList.remove('light', 'dark');
+        root.classList.add(theme);
+        root.dataset.theme = theme;
+      })();
+    </script>
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header
+        class="site-content sticky top-0 z-30 border-b border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-bg-soft)_82%,transparent)] backdrop-blur-xl"
+      >
+        <nav
+          class="mx-auto flex w-[min(100%-24px,1120px)] items-center justify-between gap-4 py-3"
+          aria-label="主要導覽"
+        >
+          <a
+            class="focus-ring flex min-w-0 items-center gap-3 rounded-full"
+            href="#top"
+          >
+            <span
+              class="grid size-9 shrink-0 place-items-center rounded-full border border-[var(--color-border-strong)] bg-[var(--color-accent-soft)] text-sm font-black text-[var(--color-accent)]"
+              aria-hidden="true"
+            >
+              LH
+            </span>
+            <span
+              class="hidden text-sm font-bold text-[var(--color-text)] sm:inline"
+            >
+              LycoHana
+            </span>
+          </a>
+          <div class="flex items-center gap-2">
+            <a
+              class="focus-ring hidden rounded-full px-3 py-2 text-sm font-medium text-[var(--color-text-muted)] transition hover:text-[var(--color-text)] md:inline-flex"
+              href="#rhythm"
+            >
+              社群節奏
+            </a>
+            <a
+              class="focus-ring hidden rounded-full px-3 py-2 text-sm font-medium text-[var(--color-text-muted)] transition hover:text-[var(--color-text)] md:inline-flex"
+              href="#picks"
+            >
+              精選推坑
+            </a>
+            <a
+              class="button-primary focus-ring hidden sm:inline-flex"
+              href={siteConfig.discordInviteUrl}
+            >
+              加入 Discord
+            </a>
+            <ThemeToggle client:load />
+          </div>
+        </nav>
+      </header>
+      <main id="top" class="site-content">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,11 +1,29 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import AnniversaryTimeline from '../components/sections/AnniversaryTimeline.astro';
+import AudienceFit from '../components/sections/AudienceFit.astro';
+import CommunityPreview from '../components/sections/CommunityPreview.astro';
+import CommunityRhythm from '../components/sections/CommunityRhythm.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import FeaturedPicksSection from '../components/sections/FeaturedPicksSection.astro';
+import Footer from '../components/sections/Footer.astro';
+import Hero from '../components/sections/Hero.astro';
+import Intro from '../components/sections/Intro.astro';
+import JoinGuide from '../components/sections/JoinGuide.astro';
+import LabIntro from '../components/sections/LabIntro.astro';
+import { siteConfig } from '../config/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title={siteConfig.name} description={siteConfig.description}>
+  <Hero />
+  <Intro />
+  <AudienceFit />
+  <CommunityPreview />
+  <CommunityRhythm />
+  <FeaturedPicksSection />
+  <AnniversaryTimeline />
+  <LabIntro />
+  <JoinGuide />
+  <FAQ />
+  <Footer />
+</BaseLayout>

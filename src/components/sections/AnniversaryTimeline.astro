@@ -1,0 +1,36 @@
+---
+import { timelineItems } from '../../data/timeline';
+---
+
+<section class="section-shell">
+  <div class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+    <div class="lg:sticky lg:top-28">
+      <p class="eyebrow">五週年與社群年表</p>
+      <h2 class="section-title">能找回來的痕跡，就先整理到這裡</h2>
+      <p class="section-copy">
+        五週年沒有打算做成很誇張的慶典。比較像是把公告、身分組、活動和一些我還記得的事情翻出來，免得之後自己也忘了。
+      </p>
+    </div>
+    <div class="red-thread pl-10">
+      {
+        timelineItems.map((item) => (
+          <article class="relative border-t border-[var(--color-border)] py-6 first:border-t-0 first:pt-0">
+            <span
+              class="absolute -left-[34px] top-7 size-3.5 rounded-full border-2 border-[var(--color-accent)] bg-[var(--color-bg)]"
+              aria-hidden="true"
+            />
+            <p class="text-sm font-black text-[var(--color-accent)]">
+              {item.year}
+            </p>
+            <h3 class="mt-2 text-xl font-bold text-[var(--color-text)]">
+              {item.title}
+            </h3>
+            <p class="mt-3 text-sm leading-7 text-[var(--color-text-muted)]">
+              {item.description}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

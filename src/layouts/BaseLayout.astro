@@ -1,6 +1,7 @@
 ---
 import ThemeToggle from '../components/interactive/ThemeToggle';
 import { siteConfig } from '../config/site';
+import { faqItems } from '../data/faq';
 import '../styles/global.css';
 
 interface Props {
@@ -11,24 +12,131 @@ interface Props {
 const title = Astro.props.title ?? siteConfig.name;
 const description = Astro.props.description ?? siteConfig.description;
 const canonical = siteConfig.canonicalUrl;
+const socialImageUrl = new URL(siteConfig.socialImage, canonical).toString();
+const socialImageWidth = siteConfig.socialImageWidth.toString();
+const socialImageHeight = siteConfig.socialImageHeight.toString();
+const organizationId = `${canonical}#organization`;
+const websiteId = `${canonical}#website`;
+const webpageId = `${canonical}#webpage`;
+const faqId = `${canonical}#faq`;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': organizationId,
+      name: siteConfig.name,
+      alternateName: siteConfig.shortName,
+      url: canonical,
+      logo: {
+        '@type': 'ImageObject',
+        url: socialImageUrl,
+        width: siteConfig.socialImageWidth,
+        height: siteConfig.socialImageHeight,
+      },
+      foundingDate: siteConfig.createdAtISO,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      url: canonical,
+      name: siteConfig.name,
+      alternateName: siteConfig.shortName,
+      description,
+      inLanguage: siteConfig.language,
+      publisher: {
+        '@id': organizationId,
+      },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': webpageId,
+      url: canonical,
+      name: title,
+      description,
+      inLanguage: siteConfig.language,
+      isPartOf: {
+        '@id': websiteId,
+      },
+      about: {
+        '@id': organizationId,
+      },
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: socialImageUrl,
+        width: siteConfig.socialImageWidth,
+        height: siteConfig.socialImageHeight,
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': faqId,
+      mainEntity: faqItems.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
+        },
+      })),
+    },
+  ],
+};
 ---
 
 <!doctype html>
-<html lang="zh-TW">
+<html lang={siteConfig.language}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    <meta name="author" content={siteConfig.author} />
+    <meta name="keywords" content={siteConfig.keywords.join(', ')} />
+    <meta name="robots" content="index, follow" />
+    <meta name="application-name" content={siteConfig.name} />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content={siteConfig.backgroundColor}
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#151019"
+    />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content={siteConfig.locale} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:width" content={socialImageWidth} />
+    <meta property="og:image:height" content={socialImageHeight} />
+    <meta property="og:image:type" content={siteConfig.socialImageType} />
+    <meta property="og:image:alt" content={siteConfig.socialImageAlt} />
     <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta name="twitter:image:alt" content={siteConfig.socialImageAlt} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="alternate" hreflang="zh-Hant-TW" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+    <link rel="icon" type="image/png" sizes="128x128" href="/favicon.png" />
+    <link rel="icon" sizes="32x32" href="/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
     <script is:inline>
       (() => {
         const storageKey = 'lycohana-theme';
@@ -59,13 +167,16 @@ const canonical = siteConfig.canonicalUrl;
           <a
             class="focus-ring flex min-w-0 items-center gap-3 rounded-full"
             href="#top"
+            aria-label="回到 LycoHana 彼岸花社群頁首"
           >
-            <span
-              class="grid size-9 shrink-0 place-items-center rounded-full border border-[var(--color-border-strong)] bg-[var(--color-accent-soft)] text-sm font-black text-[var(--color-accent)]"
+            <img
+              class="size-9 shrink-0 rounded-full border border-[var(--color-border-strong)] bg-[var(--color-accent-soft)] object-cover"
+              src="/favicon.png"
+              width="36"
+              height="36"
+              alt=""
               aria-hidden="true"
-            >
-              LH
-            </span>
+            />
             <span
               class="hidden text-sm font-bold text-[var(--color-text)] sm:inline"
             >
@@ -86,7 +197,7 @@ const canonical = siteConfig.canonicalUrl;
               精選推坑
             </a>
             <a
-              class="button-primary focus-ring hidden sm:inline-flex"
+              class="button-primary focus-ring max-sm:!hidden sm:inline-flex"
               href={siteConfig.discordInviteUrl}
             >
               加入 Discord

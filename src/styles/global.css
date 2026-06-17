@@ -163,8 +163,6 @@ a {
 .button-primary {
   background: var(--color-accent);
   color: var(--color-accent-ink);
-  box-shadow: 0 12px 28px
-    color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
 
 .button-secondary {

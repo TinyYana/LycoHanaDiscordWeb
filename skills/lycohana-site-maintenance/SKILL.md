@@ -1,84 +1,33 @@
 ---
 name: lycohana-site-maintenance
-description: Maintain the LycoHana Discord Web Astro landing page with small, voice-preserving updates to copy, data, sections, styling, and deployment checks.
+description: 維護彼岸花社群的 Astro Discord 入口頁，定位社群內容、版面、歷史摘選、SEO 與加入互動；依當次授權控制修改範圍。
 ---
 
-# LycoHana Site Maintenance
+# 彼岸花社群入口頁維護
 
-Use this skill when updating the LycoHana Discord Web repo.
+先讀 repo 的 `README.md`、`AGENTS.md`、`CLAUDE.md`，再看涉及的現有檔案。設計必要條件、授權與驗證規則集中在 `AGENTS.md`；這份 skill 只提供定位，不另設 house style。
 
-This page is a community entrance. The default move is to keep it small, readable, and easy to maintain.
+## 定位
 
-## Read First
+| 工作                             | 位置                                                                      |
+| -------------------------------- | ------------------------------------------------------------------------- |
+| 社群話題、相處方式               | `src/data/community.ts`                                                   |
+| 加入前須知                       | `src/data/faq.ts`，與 structured data 共用                                |
+| 完整歷史                         | `src/data/timeline.ts`，摘選在 `community.ts` 與 `CommunityArchive.astro` |
+| 品牌、metadata、邀請與 canonical | `src/config/site.ts`                                                      |
+| 閱讀順序                         | `src/pages/index.astro`                                                   |
+| 各段 layout/copy                 | `src/components/sections/`                                                |
+| 導覽、SEO、主題初始化            | `src/layouts/BaseLayout.astro`                                            |
+| 主題切換 state                   | `src/components/interactive/ThemeToggle.tsx`                              |
+| 明暗主題與手機重排               | `src/styles/global.css`                                                   |
+| 局部圖案與分享素材               | `public/images/`，來源見 `docs/artwork.md`                                |
 
-1. `README.md`
-2. `AGENTS.md`
-3. `CLAUDE.md`
-4. The exact `src/config`, `src/data`, section, or interactive component file involved in the task
+## 維護判斷
 
-## Common Tasks
+正式名稱先是「彼岸花社群」，LycoHana 是次要英文識別。先判斷新內容是否協助訪客決定加入，再決定放在哪裡。不要重新長出互相重述的 features、picks、受眾區與節奏區。
 
-- Change Discord invite, site metadata, canonical URL, or created date: edit `src/config/site.ts`.
-- Update FAQ: edit `src/data/faq.ts`.
-- Update community features: edit `src/data/features.ts`.
-- Update recommendation categories: edit `src/data/picks.ts`.
-- Update history: edit `src/data/timeline.ts`.
-- Reorder sections: edit `src/pages/index.astro`.
-- Adjust visual tokens or shared classes: edit `src/styles/global.css`.
-- Change a static section: edit `src/components/sections/*.astro`.
-- Change a client-side interaction: edit `src/components/interactive/*.tsx`.
+文案重寫用 `tinyyana-speaking-style`。保留真實事實與有用語氣，不必保留舊文案結構。歷史摘選要標示年代，不能把當時數字當成目前狀態。完整歷史不因 landing page 篇幅而刪除。
 
-## Voice
+小修只修受影響關係；明確授權的整體改版可重設 IA 與構圖。色票、serif、卡片、時間軸、section 排列都不是預設必須保留的規則。
 
-Default to Traditional Chinese.
-
-Keep copy casual and specific. It can sound like TinyYana actually running a small Discord community:
-
-- "這裡大概是這樣" is better than corporate positioning.
-- Short sentences are fine.
-- Mild personality is fine.
-- Do not over-polish every paragraph into a slogan.
-- Do not erase the slightly personal, lived-in feeling of the existing copy.
-
-If rewriting a lot of prose, use `tinyyana-speaking-style`.
-
-## Scope Guardrails
-
-Do not add these for ordinary maintenance:
-
-- CMS
-- backend service
-- auth
-- database
-- Discord API integration
-- analytics/tracking
-- route expansion
-- new dependency
-
-If one of those seems useful, describe it as an optional next step and keep the current task small.
-
-## UI Guardrails
-
-- Preserve the warm background, red accent, serif headings, and light/dark theme.
-- Keep the first viewport clearly about LycoHana 彼岸花社群.
-- Check mobile text wrapping after long copy edits.
-- Prefer Astro for static content.
-- Prefer React only when browser state or interaction is needed.
-- Avoid generic SaaS landing page patterns.
-
-## Validation
-
-Use the smallest meaningful check:
-
-```sh
-npm run check
-npm run build
-```
-
-For UI changes, also do a manual preview when practical:
-
-```sh
-npm run dev
-```
-
-Do not claim visual verification if you only ran type/build checks.
+完成時按 `AGENTS.md` 跑相關 check/build 與實際 browser review。有效結果沿用，不自動追加完整測試或全 repo 格式化。報告實際完成與未驗證的部分。

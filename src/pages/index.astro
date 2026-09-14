@@ -1,29 +1,17 @@
 ---
-import AnniversaryTimeline from '../components/sections/AnniversaryTimeline.astro';
-import AudienceFit from '../components/sections/AudienceFit.astro';
-import CommunityPreview from '../components/sections/CommunityPreview.astro';
-import CommunityRhythm from '../components/sections/CommunityRhythm.astro';
-import FAQ from '../components/sections/FAQ.astro';
-import FeaturedPicksSection from '../components/sections/FeaturedPicksSection.astro';
-import Footer from '../components/sections/Footer.astro';
 import Hero from '../components/sections/Hero.astro';
-import Intro from '../components/sections/Intro.astro';
-import JoinGuide from '../components/sections/JoinGuide.astro';
-import LabIntro from '../components/sections/LabIntro.astro';
+import CommunityLife from '../components/sections/CommunityLife.astro';
+import CommunityArchive from '../components/sections/CommunityArchive.astro';
+import Joining from '../components/sections/Joining.astro';
+import Footer from '../components/sections/Footer.astro';
 import { siteConfig } from '../config/site';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title={siteConfig.title} description={siteConfig.description}>
   <Hero />
-  <Intro />
-  <AudienceFit />
-  <CommunityPreview />
-  <CommunityRhythm />
-  <FeaturedPicksSection />
-  <AnniversaryTimeline />
-  <LabIntro />
-  <JoinGuide />
-  <FAQ />
+  <CommunityLife />
+  <CommunityArchive />
+  <Joining />
   <Footer />
 </BaseLayout>

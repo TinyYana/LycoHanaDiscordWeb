@@ -1,0 +1,28 @@
+---
+import { faqItems } from '../../data/faq';
+import { siteConfig } from '../../config/site';
+---
+
+<section
+  id="join"
+  class="joining reading-width section-space"
+  aria-labelledby="join-title"
+>
+  <h2 id="join-title">加入前須知</h2>
+  <div class="joining-answers">
+    {
+      faqItems.map((item) => (
+        <article>
+          <>
+            <h3>{item.label}</h3>
+            <p>{item.answer}</p>
+          </>
+        </article>
+      ))
+    }
+  </div>
+  <a class="join-community" href={siteConfig.discordInviteUrl}>
+    <span>加入 Discord</span>
+    <span class="join-arrow" aria-hidden="true">↗</span>
+  </a>
+</section>

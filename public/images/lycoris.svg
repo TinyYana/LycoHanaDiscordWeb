@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" fill="none">
+  <defs>
+    <path id="petal" d="M180 186c-25-15-59-18-70-44-7-17 8-35 21-28-21 2-22 21-8 26 28 8 49 14 57 46Z" />
+  </defs>
+  <g fill="#cc3045">
+    <use href="#petal" />
+    <use href="#petal" transform="rotate(60 180 186)" />
+    <use href="#petal" transform="rotate(120 180 186)" />
+    <use href="#petal" transform="rotate(180 180 186)" />
+    <use href="#petal" transform="rotate(240 180 186)" />
+    <use href="#petal" transform="rotate(300 180 186)" />
+  </g>
+  <g stroke="#cc3045" stroke-linecap="round">
+    <path d="M180 186C134 134 66 151 54 70M180 186C147 130 128 65 167 32M180 186C205 132 248 91 232 45M180 186C239 189 311 148 310 95M180 186C229 222 304 239 322 199M180 186C133 224 64 238 50 196" stroke-width="2.5" />
+    <path d="M180 186C194 247 165 288 153 345" stroke-width="4" />
+    <path d="m51 65 7 8m112-44-9 5m68 6 6 9m72 42 7 6m4 98 7 5m-278-7 8 4" stroke-width="6" />
+  </g>
+</svg>

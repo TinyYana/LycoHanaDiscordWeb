@@ -1,0 +1,49 @@
+---
+import { communityRecords } from '../../data/community';
+const [recommendationRecord, ...otherRecords] = communityRecords;
+---
+
+<section id="archive" class="community-archive" aria-labelledby="archive-title">
+  <div class="content-width section-space">
+    <div class="archive-feature">
+      <div class="archive-intro">
+        <h2 id="archive-title">社群留下的痕跡</h2>
+        <p>
+          2021 年 6 月 28
+          日建立。推薦串、Bot、週年身分組，還有幾次愚人節亂搞，都是這幾年留下來的東西。
+        </p>
+      </div>
+      <article class="recommendation-feature">
+        <h3>{recommendationRecord.title}</h3>
+        <p class="record-period">{recommendationRecord.period}</p>
+        <dl class="recommendations">
+          {
+            recommendationRecord.recommendations?.map((item) => (
+              <div>
+                <>
+                  <dt>{item.name}</dt>
+                  <dd>
+                    {item.count}
+                    <span>篇</span>
+                  </dd>
+                </>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="recommendation-note">{recommendationRecord.description}</p>
+      </article>
+    </div>
+    <div class="archive-stories">
+      {
+        otherRecords.map((record) => (
+          <article>
+            <h3>{record.title}</h3>
+            <p class="record-period">{record.period}</p>
+            <p class="record-description">{record.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

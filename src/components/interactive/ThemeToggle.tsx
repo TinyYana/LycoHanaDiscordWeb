@@ -2,53 +2,59 @@ import { useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark';
 
-const storageKey = 'lycohana-theme';
-
-function getCurrentTheme(): Theme {
-  if (typeof document === 'undefined') {
-    return 'light';
-  }
-
-  return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-}
-
-function applyTheme(theme: Theme) {
-  const root = document.documentElement;
-  root.classList.remove('light', 'dark');
-  root.classList.add(theme);
-  root.dataset.theme = theme;
-  localStorage.setItem(storageKey, theme);
-}
-
 export default function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {
-    setTheme(getCurrentTheme());
+    setTheme(
+      document.documentElement.classList.contains('dark') ? 'dark' : 'light',
+    );
   }, []);
 
   const nextTheme = theme === 'dark' ? 'light' : 'dark';
 
+  function toggleTheme() {
+    const root = document.documentElement;
+    root.classList.toggle('dark', nextTheme === 'dark');
+    root.classList.toggle('light', nextTheme === 'light');
+    root.dataset.theme = nextTheme;
+    try {
+      localStorage.setItem('lycohana-theme', nextTheme);
+    } catch {
+      // Theme switching still works when browser storage is unavailable.
+    }
+    setTheme(nextTheme);
+  }
+
   return (
     <button
       type="button"
-      className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-soft)] px-3 text-sm font-bold text-[var(--color-text)] shadow-sm transition hover:border-[var(--color-border-strong)]"
-      aria-label={`切換到${nextTheme === 'dark' ? '深色' : '白色'}主題`}
+      className="theme-toggle"
+      aria-label={`切換到${nextTheme === 'dark' ? '深色' : '淺色'}主題`}
       aria-pressed={theme === 'dark'}
-      onClick={() => {
-        applyTheme(nextTheme);
-        setTheme(nextTheme);
-      }}
+      onClick={toggleTheme}
     >
-      <span
-        className="grid size-6 place-items-center rounded-full bg-[var(--color-accent-soft)] text-[11px] text-[var(--color-accent)]"
+      <svg
+        className="theme-moon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
         aria-hidden="true"
       >
-        {theme === 'dark' ? '夜' : '白'}
-      </span>
-      <span className="hidden sm:inline">
-        {theme === 'dark' ? '深色' : '白色'}
-      </span>
+        <path d="M20.5 14.5A8.7 8.7 0 0 1 9.5 3.5a8.7 8.7 0 1 0 11 11Z" />
+      </svg>
+      <svg
+        className="theme-sun"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 1v3m0 16v3M1 12h3m16 0h3M4.2 4.2l2.1 2.1m11.4 11.4 2.1 2.1M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" />
+      </svg>
     </button>
   );
 }

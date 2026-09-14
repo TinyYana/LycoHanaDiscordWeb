@@ -1,61 +1,13 @@
-# CLAUDE.md
+# Claude 專案補充
 
-Claude should follow `AGENTS.md` first. This file adds a shorter project-specific reminder for Claude-style coding sessions.
+先遵守 `AGENTS.md`。這個 repo 是彼岸花社群（LycoHana）的公開 Discord 入口頁，使用 Astro 靜態建置。
 
-## Project Summary
+讀 `README.md` 找到內容位置，再按本次範圍修改。話題與相處方式在 `src/data/community.ts`，FAQ 在 `src/data/faq.ts`，完整歷史在 `src/data/timeline.ts`。目前只有主題切換需要 React，加入須知直接呈現答案。
 
-LycoHana Discord Web is a small Astro landing page for the LycoHana 彼岸花 Discord community. The site is meant to feel like an actual community entrance, not a polished corporate homepage.
+品牌名稱層級、訪客閱讀順序、真實資料、文案、視覺與工程邊界都由 `AGENTS.md` 維護，不在這裡另立一套色票或版面規則。改版授權依使用者當次要求；日常小修保持局部。
 
-Keep the project small. Most useful changes should happen in:
+繁中長文與社群 copy 使用 `tinyyana-speaking-style`。較大的方向問題按需讀 `ui-art-direction`、`information-design`，不要把所有 UI skills 當固定流程。
 
-- `src/config/site.ts`
-- `src/data/*.ts`
-- `src/components/sections/*.astro`
-- `src/components/interactive/*.tsx`
-- `src/styles/global.css`
+執行並回報 `npm run check`、`npm run build`；UI 修改的實際瀏覽器檢查與重查條件見 `AGENTS.md`。本機通過不代表正式環境已部署或使用者已驗收。
 
-## How To Work Here
-
-1. Read `README.md` and `AGENTS.md`.
-2. Inspect the exact source/data files involved in the task.
-3. Make the smallest useful change.
-4. Run the lightest meaningful validation, usually `npm run check` and `npm run build`.
-5. Report what changed and what was actually verified.
-
-## Voice
-
-Default to Traditional Chinese for site copy and project docs unless the user asks otherwise.
-
-The voice should stay casual, specific, and a little lived-in. Avoid turning copy into formal brand language. If a sentence already sounds like someone who runs the community wrote it, do not sand it down just to make it neater.
-
-Use `tinyyana-speaking-style` for README prose, community copy, FAQ rewrites, and other Traditional Chinese text that should match TinyYana's voice.
-
-## Frontend Boundaries
-
-- Use Astro for static layout and sections.
-- Use React only for interactive islands.
-- Keep Tailwind class usage consistent with nearby files.
-- Preserve light/dark theme behavior.
-- Do not add dependencies for simple layout or copy work.
-- Do not create new pages, routing, CMS, backend services, or Discord integrations unless explicitly requested.
-
-## Validation
-
-Preferred checks:
-
-```sh
-npm run check
-npm run build
-```
-
-Use `npm run format` only when formatting is part of the intended change, because it may rewrite unrelated files.
-
-## Extra Skill
-
-For recurring site maintenance, read:
-
-```txt
-skills/lycohana-site-maintenance/SKILL.md
-```
-
-It captures the repo-specific maintenance flow: where content lives, how to avoid scope creep, and how to keep the page's current voice intact.
+重複性維護可使用 `skills/lycohana-site-maintenance/SKILL.md` 的定位地圖。

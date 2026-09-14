@@ -1,0 +1,35 @@
+---
+import { communityTopics } from '../../data/community';
+---
+
+<section
+  id="life"
+  class="community-life content-width"
+  aria-labelledby="life-title"
+>
+  <div class="life-body">
+    <div class="life-topics">
+      <h2 id="life-title">社群日常</h2>
+      <div class="topic-grid">
+        {
+          communityTopics.map((topic) => (
+            <article class="topic-card">
+              <h3>{topic.title}</h3>
+              <p>{topic.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+    <aside class="community-rhythm" aria-labelledby="rhythm-title">
+      <h3 id="rhythm-title">社群節奏</h3>
+      <p class="rhythm-main">
+        有時幾句就停，有時會從<span class="keep-together">一部作品</span
+        >一路聊開。
+      </p>
+      <p>不用每天報到，隔一陣子再冒泡也可以。安靜的時候，不用找話題硬撐。</p>
+      <p>如果你期待每天都有大量新訊息，這裡可能跟你想的不一樣。</p>
+      <a href="#join">加入前須知 <span aria-hidden="true">↓</span></a>
+    </aside>
+  </div>
+</section>

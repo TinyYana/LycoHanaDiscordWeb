@@ -18,7 +18,7 @@ const socialImageHeight = siteConfig.socialImageHeight.toString();
 const organizationId = `${canonical}#organization`;
 const websiteId = `${canonical}#website`;
 const webpageId = `${canonical}#webpage`;
-const faqId = `${canonical}#faq`;
+const faqId = `${canonical}#join`;
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -26,13 +26,13 @@ const structuredData = {
       '@type': 'Organization',
       '@id': organizationId,
       name: siteConfig.name,
-      alternateName: siteConfig.shortName,
+      alternateName: siteConfig.englishName,
       url: canonical,
       logo: {
         '@type': 'ImageObject',
-        url: socialImageUrl,
-        width: siteConfig.socialImageWidth,
-        height: siteConfig.socialImageHeight,
+        url: new URL('/favicon.png', canonical).toString(),
+        width: 128,
+        height: 128,
       },
       foundingDate: siteConfig.createdAtISO,
     },
@@ -41,7 +41,7 @@ const structuredData = {
       '@id': websiteId,
       url: canonical,
       name: siteConfig.name,
-      alternateName: siteConfig.shortName,
+      alternateName: siteConfig.englishName,
       description,
       inLanguage: siteConfig.language,
       publisher: {
@@ -102,7 +102,7 @@ const structuredData = {
     <meta
       name="theme-color"
       media="(prefers-color-scheme: dark)"
-      content="#151019"
+      content="#161618"
     />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={siteConfig.locale} />
@@ -115,7 +115,7 @@ const structuredData = {
     <meta property="og:image:height" content={socialImageHeight} />
     <meta property="og:image:type" content={siteConfig.socialImageType} />
     <meta property="og:image:alt" content={siteConfig.socialImageAlt} />
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageUrl} />
@@ -125,11 +125,7 @@ const structuredData = {
     <link rel="alternate" hreflang="x-default" href={canonical} />
     <link rel="icon" type="image/png" sizes="128x128" href="/favicon.png" />
     <link rel="icon" sizes="32x32" href="/favicon.ico" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/apple-touch-icon.png"
-    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
     <script
@@ -141,7 +137,12 @@ const structuredData = {
       (() => {
         const storageKey = 'lycohana-theme';
         const root = document.documentElement;
-        const stored = localStorage.getItem(storageKey);
+        let stored = null;
+        try {
+          stored = localStorage.getItem(storageKey);
+        } catch {
+          // Fall back to the system theme if storage is unavailable.
+        }
         const preferred = window.matchMedia('(prefers-color-scheme: dark)')
           .matches
           ? 'dark'
@@ -155,60 +156,25 @@ const structuredData = {
     </script>
     <title>{title}</title>
   </head>
-  <body>
-    <div class="site-shell">
-      <header
-        class="site-content sticky top-0 z-30 border-b border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-bg-soft)_82%,transparent)] backdrop-blur-xl"
-      >
-        <nav
-          class="mx-auto flex w-[min(100%-24px,1120px)] items-center justify-between gap-4 py-3"
-          aria-label="主要導覽"
-        >
-          <a
-            class="focus-ring flex min-w-0 items-center gap-3 rounded-full"
-            href="#top"
-            aria-label="回到 LycoHana 彼岸花社群頁首"
-          >
-            <img
-              class="size-9 shrink-0 rounded-full border border-[var(--color-border-strong)] bg-[var(--color-accent-soft)] object-cover"
-              src="/favicon.png"
-              width="36"
-              height="36"
-              alt=""
-              aria-hidden="true"
-            />
-            <span
-              class="hidden text-sm font-bold text-[var(--color-text)] sm:inline"
-            >
-              LycoHana
-            </span>
-          </a>
-          <div class="flex items-center gap-2">
-            <a
-              class="focus-ring hidden rounded-full px-3 py-2 text-sm font-medium text-[var(--color-text-muted)] transition hover:text-[var(--color-text)] md:inline-flex"
-              href="#rhythm"
-            >
-              社群節奏
-            </a>
-            <a
-              class="focus-ring hidden rounded-full px-3 py-2 text-sm font-medium text-[var(--color-text-muted)] transition hover:text-[var(--color-text)] md:inline-flex"
-              href="#picks"
-            >
-              精選推坑
-            </a>
-            <a
-              class="button-primary focus-ring max-sm:!hidden sm:inline-flex"
-              href={siteConfig.discordInviteUrl}
-            >
-              加入 Discord
-            </a>
-            <ThemeToggle client:load />
-          </div>
+  <body id="top">
+    <a class="skip-link" href="#main">跳到主要內容</a>
+    <header class="site-header">
+      <div class="header-inner content-width">
+        <a class="brand" href="#top" aria-label="彼岸花社群，回到頁首">
+          <span>{siteConfig.name}</span>
+        </a>
+        <nav class="main-nav" aria-label="主要導覽">
+          <a href="#life" aria-label="社群日常">日常</a>
+          <a href="#archive" aria-label="社群紀錄">紀錄</a>
+          <a href="#join" aria-label="加入前須知">加入</a>
         </nav>
-      </header>
-      <main id="top" class="site-content">
-        <slot />
-      </main>
-    </div>
+        <div class="header-actions">
+          <ThemeToggle client:load />
+        </div>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
   </body>
 </html>

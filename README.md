@@ -1,115 +1,64 @@
-# LycoHana Discord Web
+# 彼岸花社群 Discord 入口頁
 
-LycoHana 彼岸花社群的 Discord 入口頁。
+彼岸花社群（LycoHana）的公開門牌。讓第一次路過的人知道平常聊什麼、交流步調如何，以及要從哪裡加入。真正的聊天、頻道與規則都在 Discord 裡。
 
-這不是一個很大的產品，也不是要把 Discord 社群包成正式品牌官網。它比較像一張可以公開給人看的門牌：讓第一次路過的人知道這裡大概聊什麼、適不適合進來、要從哪裡加入。
+## 這頁怎麼讀
 
-## 專案定位
+先認識社群，再從社群日常找到共同興趣：動畫漫畫、遊戲音樂、圖片日常與創作技術以同級話題卡片呈現。交流節奏與聊天壓力放在同一閱讀區，方便一起判斷。推薦、Bot、身分組和活動紀錄提供長期經營的證據。最後把潛水、自介、接話與交流界線直接說清楚，再前往 Discord。
 
-- 一頁式靜態網站，介紹 LycoHana 彼岸花 Discord 社群。
-- 內容重點是 ACG、日常、推坑、社群節奏、週年紀錄和加入前的常見問題。
-- 文案可以有一點個人感，不要被整理成太企業、太像 SaaS landing page 的東西。
-- 如果只是改社群資訊、推坑類別、FAQ 或時間線，通常改 `src/config/` 或 `src/data/` 就夠了，不需要碰版面。
+文案取自社群原有資訊，沒有把示意句包成成員對話，也沒有即時成員數或活躍度。2022 年的推薦篇數是當年一週年的紀錄。
 
-## 技術棧
+## 開發
 
-- [Astro](https://astro.build/)：頁面與靜態建置。
-- React：只用在少量互動元件，例如主題切換、FAQ accordion、精選推坑互動。
-- Tailwind CSS v4：透過 `@tailwindcss/vite` 接進 Astro。
-- Cloudflare Workers/Assets：`wrangler.jsonc` 指向 `./dist`。
-
-## 環境需求
+使用 Node.js `>=22.12.0`。
 
 ```sh
 npm install
-```
-
-`package.json` 目前要求 Node.js `>=22.12.0`。如果本機版本太舊，先切 Node 再安裝依賴，不然 Astro / TypeScript 版本可能會先吵。
-
-## 常用指令
-
-```sh
 npm run dev
-npm run check
-npm run build
-npm run preview
-npm run format
 ```
 
-- `npm run dev`：啟動本機開發伺服器。
-- `npm run check`：跑 Astro 型別與專案檢查。
-- `npm run build`：輸出靜態站到 `dist/`。
-- `npm run preview`：預覽 build 後的結果。
-- `npm run format`：用 Prettier 格式化整個 repo。這會改檔案，執行前先確認工作樹狀態。
+- `npm run check`：Astro 型別與專案檢查。
+- `npm run build`：產生 `dist/` 靜態站。
+- `npm run preview`：預覽建置結果。
+- `npm run format`：格式化整個 repo，執行前先確認工作樹範圍。
 
-## 專案結構
+Astro 負責靜態內容，Tailwind CSS v4 接在 Vite 上。React 目前只用於主題切換；加入須知直接呈現四組答案，不需要展開元件或額外互動套件。沒有後端或 Discord API。
 
-```txt
-src/
-  components/
-    interactive/  React 互動元件
-    sections/     首頁各段落
-  config/         站點名稱、描述、Discord 邀請連結
-  data/           FAQ、推坑類型、社群特色、時間線
-  layouts/        HTML metadata、導覽、全站 shell
-  pages/          Astro page entry
-  styles/         全站 CSS token 與共用 class
-skills/           給代理維護這個 repo 用的技能說明
-```
+## 內容位置
 
-## 內容維護
+| 要改什麼                                   | 檔案                           |
+| ------------------------------------------ | ------------------------------ |
+| 站名、metadata、邀請、canonical 與建立日期 | `src/config/site.ts`           |
+| 社群話題與相處方式                         | `src/data/community.ts`        |
+| 加入前須知                                 | `src/data/faq.ts`              |
+| 完整歷史資料                               | `src/data/timeline.ts`         |
+| 首頁閱讀順序                               | `src/pages/index.astro`        |
+| 各段內容與閱讀分組                         | `src/components/sections/`     |
+| 導覽、SEO、OG 與 structured data           | `src/layouts/BaseLayout.astro` |
+| 字體、版面、明暗主題與 responsive          | `src/styles/global.css`        |
+| 局部向量圖案與分享圖                       | `public/images/`               |
 
-最常改的地方：
+`community.ts` 合併原本 features、picks 與受眾介紹的重複材料，也保存首頁的歷史摘要。`timeline.ts` 完整保留；`CommunityArchive.astro` 呈現少數有助理解社群差異的紀錄，並標示年代。
 
-- Discord 邀請、站名、描述、建立日期：`src/config/site.ts`
-- 首頁段落順序：`src/pages/index.astro`
-- 社群特色：`src/data/features.ts`
-- 推坑類型：`src/data/picks.ts`
-- FAQ：`src/data/faq.ts`
-- 社群時間線：`src/data/timeline.ts`
-- 色彩、間距、共用 class：`src/styles/global.css`
+## 維護時保留的判斷
 
-改文案時先看附近原本的句子。這個站的語氣比較像「社群主人在跟路人講這裡是什麼地方」，不是公告稿，也不是品牌手冊。可以白話，可以有一點吐槽，但不要把每段都寫成漂亮總結。
+正式名稱是「彼岸花社群」，LycoHana 是英文識別。頁首、第一屏、metadata 都先讓人認識中文名稱。
 
-## UI 維護方向
+內容應幫陌生訪客判斷要不要加入。新增一段前，先看它是否真的補了新資訊；不要讓同一件事在話題、特色、推坑與 FAQ 各講一次。標題直接命名內容，刪除沒有資訊作用的英文小標與補文。
 
-- 保留暖色底、彼岸花紅、繁中襯線標題和輕量線條感。
-- 版面已經是單頁介紹，不要為了一個小內容更新新增複雜路由、CMS 或大型狀態管理。
-- React 只放真的需要 client-side interaction 的部分；純展示段落優先用 Astro。
-- 如果要做大幅視覺調整，先確認這是 redesign，不要在小修裡順手換掉整個氣質。
-- 文字在手機版不能擠出按鈕或卡片。改長文案後至少看一下窄螢幕。
+畫面的層級靠真實內容、圖像、尺度與分組形成。不要把目前色票、圖文位置或區塊排列當成下一次修改必須套用的模板。保留可讀的繁中、清楚的名稱層級、明暗主題、手機重排與能直接找到的加入操作。
 
-## 部署
+新版沒有沿用舊頭像或完整 AI 插畫，只用局部彼岸花圖案搭配中文品牌。圖案與分享圖的來源見 [docs/artwork.md](docs/artwork.md)。
 
-目前 `wrangler.jsonc` 設定：
-
-```jsonc
-{
-  "name": "lycohana-discord-web",
-  "compatibility_date": "2026-06-17",
-  "assets": {
-    "directory": "./dist",
-  },
-}
-```
-
-部署前先跑：
+## 驗證與部署
 
 ```sh
 npm run check
 npm run build
 ```
 
-如果要改 `wrangler.jsonc`、網域、Cloudflare 專案名稱或 Discord 邀請連結，先確認這不是誤改。這些東西看起來很小，實際上壞掉會直接影響入口頁。
+版面或長文案改變後，用實際瀏覽器看完整桌面與窄版手機頁面，涵蓋明暗主題、中文換行、導覽錨點、加入須知、主題切換與加入連結。已通過的檢查只在相關修改或新問題出現時補跑。
 
-## 給 AI 代理
+Cloudflare 仍由 `wrangler.jsonc` 提供設定，assets 目錄為 `./dist`。Discord 邀請、canonical、Cloudflare 設定都屬於入口本身，修改前應確認有對應授權；本機建置不代表已部署。
 
-這個 repo 有根目錄 `AGENTS.md` 和 `CLAUDE.md`。進來改東西前先讀它們。
-
-如果任務是維護這個站，可以參考：
-
-```txt
-skills/lycohana-site-maintenance/SKILL.md
-```
-
-它只記這個站的維護邏輯：哪裡能改、哪裡不要擴張、文案要怎麼維持現在的口氣。不要因為有 skill 就把簡單修改變成一套儀式。
+代理入口在 `AGENTS.md`，Claude 補充在 `CLAUDE.md`。日常維護可按需讀 `skills/lycohana-site-maintenance/SKILL.md`。

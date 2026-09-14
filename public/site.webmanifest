@@ -1,13 +1,13 @@
 {
-  "name": "LycoHana 彼岸花社群",
-  "short_name": "LycoHana",
-  "description": "LycoHana 彼岸花是繁體中文的小型 Discord 社群，主要聊 ACG、日常近況、作品推坑、圖片分享，以及偶爾的創作、AI 和開發話題。",
+  "name": "彼岸花社群",
+  "short_name": "彼岸花社群",
+  "description": "彼岸花社群（LycoHana）的繁中 Discord 入口。聊 ACG、分享日常，偶爾冒泡也可以。",
   "lang": "zh-TW",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#fbf7ef",
-  "theme_color": "#b83245",
+  "background_color": "#fafafa",
+  "theme_color": "#b51f32",
   "icons": [
     {
       "src": "/favicon.png",
